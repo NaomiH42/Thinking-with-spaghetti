@@ -1,17 +1,5 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   push_swap.h                                        :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: ehasalu <ehasalu@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/10 19:58:57 by ehasalu           #+#    #+#             */
-/*   Updated: 2023/03/11 18:36:54 by ehasalu          ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
-#ifndef PUSH_SWAP_H
-# define PUSH_SWAP_H
+#ifndef PUSH_SWAP_BONUS_H
+# define PUSH_SWAP_BONUS_H
 
 # include "./libft/libft.h"
 # include <limits.h>
@@ -86,5 +74,16 @@ char	**split_numbers(int *argc, char **argv, int *flag);
 void	under_hun(t_stack **a, t_stack **b, int **sep, t_size aaa);
 void	over_hun(t_stack **a, t_stack **b, int **sep, t_size aaa);
 int		assign_len(int i, t_size aaa, int flag);
+void	pa_c(t_stack **a, t_stack **b);
+void	pb_c(t_stack **a, t_stack **b);
+void	rra_c(t_stack **a);
+void	rrb_c(t_stack **b);
+void	rrr_c(t_stack **a, t_stack **b);
+void	ra_c(t_stack **a);
+void	rb_c(t_stack **b);
+void	rr_c(t_stack **a, t_stack **b);
+void	sa_c(t_stack **a);
+void	sb_c(t_stack **b);
+void	ss_c(t_stack **a, t_stack **b);
 
 #endif
