@@ -15,6 +15,8 @@ typedef struct	s_info
 	int					number_eat;
 	int					phil_n;
 	int					*forks;
+	struct timeval	timestart;
+	int					ded;
 }	t_info;
 
 typedef struct	s_id
