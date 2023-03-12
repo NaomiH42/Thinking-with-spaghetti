@@ -220,7 +220,7 @@ void	one_philo(t_info id)
 int	main(void)//int argc, char **argv)
 {
 	int argc = 6;
-	char *argv[6] = {"0", "9", "310", "200", "100", "-1"};
+	char *argv[6] = {"0", "8", "310", "200", "100", "-1"};
 
 	t_info			phil_info;
 	int				i;
@@ -235,9 +235,10 @@ int	main(void)//int argc, char **argv)
 	gettimeofday(&phil_info.timestart, NULL);
 	pthread_t		*phil = malloc(phil_info.phil_n * sizeof(pthread_t));
 	pthread_mutex_t *mutexes = malloc(phil_info.phil_n * sizeof(pthread_mutex_t));
-	phil_info.forks = malloc(phil_info.phil_n);
+	phil_info.forks = malloc(phil_info.phil_n * sizeof(int));
 	phil_id = malloc(phil_info.phil_n * sizeof(t_id));
 	phil_info.ded = 0;
+	printf("%d\n", phil_info.phil_n);
 	while (i < phil_info.phil_n)
 	{
 		pthread_mutex_init(&mutexes[i], NULL);
@@ -250,7 +251,8 @@ int	main(void)//int argc, char **argv)
 	i = 0;
 	while (i < phil_info.phil_n)
 	{
-		pthread_create(phil + i, NULL, &routine, &phil_id[i]);
+		if (pthread_create(phil + i, NULL, &routine, &phil_id[i]))
+			return (0);
 		i++;
 	}
 	i = 0;
@@ -259,4 +261,14 @@ int	main(void)//int argc, char **argv)
 		pthread_join(phil[i], NULL);
 		i++;
 	}
+	i = 0;
+	while (i < phil_info.phil_n)
+	{
+		pthread_mutex_destroy(&mutexes[i]);
+		i++;
+	}
+	free(phil);
+	free(mutexes);
+	free(phil_id);
+	free(phil_info.forks);
 }
