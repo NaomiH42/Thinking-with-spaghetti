@@ -2,11 +2,6 @@
 
 unsigned int timestamp(struct timeval tv1, struct timeval tv2)
 {
-/* 	printf("TV1U:%u\n", tv1.tv_usec);
-	printf("TV2U:%u\n", tv2.tv_usec);
-	printf("TV1S:%u\n", tv1.tv_sec);
-	printf("TV2S:%u\n", tv2.tv_sec);
-	printf("TIME11111: %u\n", (((tv1.tv_sec * 1000) + (tv1.tv_usec / 1000))) - ((tv2.tv_sec * 1000) + (tv2.tv_usec / 1000))); */
 	return ((((tv1.tv_sec * 1000) + (tv1.tv_usec / 1000))) - ((tv2.tv_sec * 1000) + (tv2.tv_usec / 1000)));
 }
 
@@ -22,8 +17,7 @@ int		is_ded(t_id *id, unsigned int eaten)
 	gettimeofday(&timenow, NULL);
 	if (id->info->ded == 1)
 		return (0);
-	// printf("%u %d\n", eaten, id->info->ttd);
-	if (eaten >= id->info->ttd)
+	if (eaten >= (unsigned int)id->info->ttd)
 		{
 			printf("%u %d died\n", timestamp(timenow, id->info->timestart), id->id+1);
 			id->info->ded = 1;
@@ -50,13 +44,13 @@ void	fork_msg(t_id *id, int pos, int act)
 		else
 			printf("%u %d has taken a fork\n",  timestamp(timenow, id->info->timestart), id->id+1);
 	}
-	// else
-	// {
-	// 	if (id->id == pos)
-	// 		printf("%u %d has put down a fork\n",  timestamp(timenow, id->info->timestart), id->id+1);
-	// 	else
-	// 		printf("%u %d has put down a fork\n",  timestamp(timenow, id->info->timestart), id->id+1);
-	// }
+	else
+	{
+		if (id->id == pos)
+			printf("%u %d has put down a fork\n",  timestamp(timenow, id->info->timestart), id->id+1);
+		else
+			printf("%u %d has put down a fork\n",  timestamp(timenow, id->info->timestart), id->id+1);
+	}
 }
 
 void	put_fork(t_id *id, int pos)
@@ -109,11 +103,9 @@ void	*routine(void *phil_id)
 	struct timeval	timenow;
 	struct timeval	last_eat;
 	int				time_eaten;
-	int	ded;
 	int flag = 1;
 
 	time_eaten = 0;
-	ded = 0;
 	gettimeofday(&timenow, NULL);
 	gettimeofday(&last_eat, NULL);
 	while (!id->info->ded)
@@ -121,77 +113,38 @@ void	*routine(void *phil_id)
 		gettimeofday(&timenow, NULL);
 		if (!is_ded(id, timestamp(timenow, last_eat)))
 			return (NULL);
+		if (id->id % 2 == 0 && flag)
+		{
+			gettimeofday(&timenow, NULL);
+			printf("%u %d is sleeping\n", timestamp(timenow, id->info->timestart), id->id+1);
+			msleep(id->info->tts);
+			flag = 0;
+		}
+		gettimeofday(&timenow, NULL);
+		if (!is_ded(id, timestamp(timenow, last_eat)))
+			return (NULL);
 		if (id->id == (id->info->phil_n - 1))
-		{
-				gettimeofday(&timenow, NULL);
-				if (!is_ded(id, timestamp(timenow, last_eat)))
-					return (NULL);
-				if (id->id % 2 == 0 && flag)
-				{
-					gettimeofday(&timenow, NULL);
-					printf("%u %d is sleeping\n", timestamp(timenow, id->info->timestart), id->id+1);
-					msleep(id->info->tts);
-					flag = 0;
-				}
-				gettimeofday(&timenow, NULL);
-				if (!is_ded(id, timestamp(timenow, last_eat)))
-					return (NULL);
-				eat_last(id);
-				gettimeofday(&last_eat, NULL);
-				time_eaten++;
-				gettimeofday(&timenow, NULL);
-				printf("%u %d is sleeping\n", timestamp(timenow, id->info->timestart), id->id+1);
-				msleep(id->info->tts);
-				gettimeofday(&timenow, NULL);
-				if (!is_ded(id, timestamp(timenow, last_eat)))
-					return (NULL);
-				printf("%u %d is thinking\n", timestamp(timenow, id->info->timestart), id->id+1);
-				msleep(2*id->info->tte - id->info->tts);
-				gettimeofday(&timenow, NULL);
-				if (!is_ded(id, timestamp(timenow, last_eat)))
-					return (NULL);
-		}
+			eat_last(id);
 		else
-		{
-				gettimeofday(&timenow, NULL);
-				if (!is_ded(id, timestamp(timenow, last_eat)))
-					return (NULL);
-				if (id->id % 2 == 0 && flag)
-				{
-					gettimeofday(&timenow, NULL);
-					printf("%u %d is sleeping\n", timestamp(timenow, id->info->timestart), id->id+1);
-					msleep(id->info->tts);
-					flag = 0;
-				}
-				gettimeofday(&timenow, NULL);
-				if (!is_ded(id, timestamp(timenow, last_eat)))
-					return (NULL);
-				eat(id);
-				gettimeofday(&last_eat, NULL);
-				time_eaten++;
-				gettimeofday(&timenow, NULL);
-				printf("%u %d is sleeping\n", timestamp(timenow, id->info->timestart), id->id+1);
-				msleep(id->info->tts);
-				gettimeofday(&timenow, NULL);
-				if (!is_ded(id, timestamp(timenow, last_eat)))
-					return (NULL);
-				printf("%u %d is thinking\n", timestamp(timenow, id->info->timestart), id->id+1);
-				msleep(2*id->info->tte - id->info->tts);
-				gettimeofday(&timenow, NULL);
-				if (!is_ded(id, timestamp(timenow, last_eat)))
-					return (NULL);
-		}
+			eat(id);
+		gettimeofday(&last_eat, NULL);
+		time_eaten++;
+		gettimeofday(&timenow, NULL);
+		printf("%u %d is sleeping\n", timestamp(timenow, id->info->timestart), id->id+1);
+		msleep(id->info->tts);
+		gettimeofday(&timenow, NULL);
+		if (!is_ded(id, timestamp(timenow, last_eat)))
+			return (NULL);
+		printf("%u %d is thinking\n", timestamp(timenow, id->info->timestart), id->id+1);
+		msleep(2*id->info->tte - id->info->tts);
+		gettimeofday(&timenow, NULL);
+		if (!is_ded(id, timestamp(timenow, last_eat)))
+			return (NULL);
 		gettimeofday(&timenow, NULL);
 		if (time_eaten == id->info->number_eat)
 			return (NULL);
 		if (!is_ded(id, timestamp(timenow, last_eat)))
 			return (NULL);
-		// if (timestamp(timenow, last_eat) >= id->info->ttd)
-		// {
-		// 	printf("%u Philosopher %d died RIP\n", timestamp(timenow, id->info->timestart), id->id);
-		// 	id->info->ded = 1;
-		// 	return (NULL);
-		// }
 	}
 	return (NULL);
 }
@@ -202,9 +155,19 @@ void	get_values(int	argc, char **argv, t_info *phil_info)
 	phil_info->ttd = long_atoi(argv[2]);
 	phil_info->tte = long_atoi(argv[3]);
 	phil_info->tts = long_atoi(argv[4]);
+	if (phil_info->phil_n < 1)
+		error_msg(2);
+	if (phil_info->ttd < 0)
+		error_msg(2);
+	if (phil_info->tte < 0)
+		error_msg(2);
+	if (phil_info->tts < 0)
+		error_msg(2);
 	if (argc == 6)
 	{
 		phil_info->number_eat = (int)long_atoi(argv[5]);
+		if (phil_info->number_eat < 0)
+			error_msg(2);
 	}
 	else
 		phil_info->number_eat = -1;
@@ -212,15 +175,15 @@ void	get_values(int	argc, char **argv, t_info *phil_info)
 
 void	one_philo(t_info id)
 {
-	printf("Philosophers has died\n");
 	msleep(id.ttd);
+	printf("%u 1 has died\n", id.ttd);
 	exit(0);
 }
 
-int	main(void)//int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	int argc = 6;
-	char *argv[6] = {"0", "8", "310", "200", "100", "-1"};
+	// int argc = 6;
+	// char *argv[6] = {"0", "8", "310", "200", "100", "-1"};
 
 	t_info			phil_info;
 	int				i;
@@ -238,7 +201,6 @@ int	main(void)//int argc, char **argv)
 	phil_info.forks = malloc(phil_info.phil_n * sizeof(int));
 	phil_id = malloc(phil_info.phil_n * sizeof(t_id));
 	phil_info.ded = 0;
-	printf("%d\n", phil_info.phil_n);
 	while (i < phil_info.phil_n)
 	{
 		pthread_mutex_init(&mutexes[i], NULL);

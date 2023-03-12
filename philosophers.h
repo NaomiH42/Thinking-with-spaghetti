@@ -9,9 +9,9 @@
 
 typedef struct	s_info
 {
-	unsigned long int	ttd;
-	unsigned long int	tte;
-	unsigned long int	tts;
+	int	ttd;
+	int	tte;
+	int	tts;
 	int					number_eat;
 	int					phil_n;
 	int					*forks;
@@ -27,6 +27,6 @@ typedef struct	s_id
 }	t_id;
 
 void	error_msg(int	err);
-unsigned long int	long_atoi(const char *nptr);
+int	long_atoi(const char *nptr);
 
 #endif
