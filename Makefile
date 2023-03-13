@@ -1,6 +1,6 @@
 NAME = philo
 
-SRCS =	philosophers.c philo_utilities.c
+SRCS =	philosophers.c philo_utilities.c philo_utilities2.c philo_utilities3.c
 
 FLAGS = -pthread
 CC_FLAGS = -Wall -Werror -Wextra ${FLAGS}
