@@ -35,7 +35,6 @@ typedef struct s_id
 {
 	t_info			*info;
 	int				id;
-	int				t_eat;
 	pthread_mutex_t	*mutexes;
 }	t_id;
 

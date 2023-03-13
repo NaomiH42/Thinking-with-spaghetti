@@ -48,7 +48,6 @@ void	phil_init(t_info *phil_info, pthread_mutex_t **mutexes, t_id **phil_id)
 		phil_info->forks[i] = 1;
 		(*phil_id)[i].info = phil_info;
 		(*phil_id)[i].id = i;
-		(*phil_id)[i].t_eat = 0;
 		(*phil_id)[i].mutexes = *mutexes;
 		i++;
 	}
