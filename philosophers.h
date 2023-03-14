@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philosophers.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehasalu <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ehasalu <ehasalu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 13:57:07 by ehasalu           #+#    #+#             */
-/*   Updated: 2023/03/13 13:57:08 by ehasalu          ###   ########.fr       */
+/*   Updated: 2023/03/14 19:21:24 by ehasalu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,24 @@ typedef struct s_info
 	struct timeval	start;
 	int				ded;
 }	t_info;
+
+typedef struct s_info_b
+{
+	int				ttd;
+	int				tte;
+	int				tts;
+	int				number_eat;
+	int				phil_n;
+	struct timeval	start;
+	int				ded;
+}	t_info_b;
+
+typedef struct s_id_b
+{
+	t_info			*info;
+	int				id;
+	int				t_eat;
+}	t_id_b;
 
 typedef struct s_id
 {
@@ -57,5 +75,11 @@ void			memory_init(t_info *phil_info, pthread_t **phil,
 					pthread_mutex_t **mutexes, t_id **phil_id);
 void			sleeping(t_id *id);
 void			thinking(t_id *id);
+int	eat_last(t_id *id, int *t_eat, struct timeval l_eat);
+int	eat(t_id *id, int *t_eat, struct timeval l_eat);
+void	first_sleep(t_id *id, int *flag, struct timeval *last_eat);
+void	*routine(void *phil_id);
+
+
 
 #endif
