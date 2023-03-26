@@ -2,8 +2,7 @@ NAME = philo
 NAME_B = philo_b
 
 SRCS =	philosophers.c philo_utilities.c philo_utilities2.c philo_utilities3.c philo_utilities4.c
-SRCS_B = philosophers_bonus.c philo_utilities.c philo_utilities2.c philo_utilities3.c philo_utilities4.c
-
+SRCS_B = philosophers_bonus.c philo_b_utilities.c philo_b_utilities2.c
 FLAGS = -pthread
 CC_FLAGS = -Wall -Werror -Wextra ${FLAGS}
 
