@@ -36,8 +36,11 @@ void	thinking_b(t_info_b info, int id)
 	struct timeval	timenow;
 
 	gettimeofday(&timenow, NULL);
-	printf("%u %d is thinking\n", ts(timenow, info.start), id);
-	msleep(2 * info.tte - info.tts);
+	if (2 * info.tte - info.tts > 0)
+	{
+		printf("%u %d is thinking\n", ts(timenow, info.start), id);
+		msleep(2 * info.tte - info.tts);
+	}
 }
 
 int	is_ded_b(int id, unsigned int eaten, t_info_b phil_info)

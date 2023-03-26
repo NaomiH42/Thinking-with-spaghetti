@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo_utilities3.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehasalu <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: ehasalu <ehasalu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 15:12:33 by ehasalu           #+#    #+#             */
-/*   Updated: 2023/03/13 15:12:34 by ehasalu          ###   ########.fr       */
+/*   Updated: 2023/03/26 19:18:51 by ehasalu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,9 @@ void	thinking(t_id *id)
 	struct timeval	timenow;
 
 	gettimeofday(&timenow, NULL);
-	printf("%u %d is thinking\n", ts(timenow, id->info->start), id->id + 1);
-	msleep(2 * id->info->tte - id->info->tts);
+	if (2 * id->info->tte - id->info->tts > 0)
+	{
+		printf("%u %d is thinking\n", ts(timenow, id->info->start), id->id + 1);
+		msleep(2 * id->info->tte - id->info->tts);
+	}
 }
