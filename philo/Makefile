@@ -1,0 +1,20 @@
+NAME = philo
+
+SRCS =	philosophers.c philo_utilities.c philo_utilities2.c philo_utilities3.c philo_utilities4.c
+
+FLAGS = -pthread
+CC_FLAGS = -Wall -Werror -Wextra ${FLAGS}
+
+all:	${NAME}
+
+${NAME}:
+	cc ${CC_FLAGS} ${SRCS} -o ${NAME}
+
+clean:
+	rm -rf ${NAME}
+
+fclean:	clean
+
+re:	fclean all
+
+.PHONY:	all clean fclean re
