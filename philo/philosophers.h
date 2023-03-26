@@ -6,7 +6,7 @@
 /*   By: ehasalu <ehasalu@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 13:57:07 by ehasalu           #+#    #+#             */
-/*   Updated: 2023/03/26 12:34:40 by ehasalu          ###   ########.fr       */
+/*   Updated: 2023/03/26 18:31:36 by ehasalu          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,18 +32,6 @@ typedef struct s_info
 	struct timeval	start;
 	int				ded;
 }	t_info;
-
-typedef struct s_info_b
-{
-	int				ttd;
-	int				tte;
-	int				tts;
-	int				number_eat;
-	int				phil_n;
-	sem_t		forks;
-	struct timeval	start;
-	int				ded;
-}	t_info_b;
 
 typedef struct s_id_b
 {
