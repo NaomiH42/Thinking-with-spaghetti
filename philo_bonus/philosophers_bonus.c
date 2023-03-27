@@ -17,24 +17,18 @@ int	eat_b(t_info_b info, struct timeval l_eat, int id, sem_t *sem)
 	struct timeval	time;
 
 	gettimeofday(&time, NULL);
-	sem_wait(sem);
 	if (gettimeofday(&time, NULL), !is_ded_b(id, ts(time, l_eat), info))
 		exit(0);
+	sem_wait(sem);
 	fork_msg_b(info, id, 1);
 	sem_wait(sem);
-	if (gettimeofday(&time, NULL), !is_ded_b(id, ts(time, l_eat), info))
-		exit(0);
 	fork_msg_b(info, id, 1);
 	gettimeofday(&time, NULL);
 	printf("%u %d is eating\n", ts(time, info.start), id);
 	msleep(info.tte);
 	sem_post(sem);
-	if (gettimeofday(&time, NULL), !is_ded_b(id, ts(time, l_eat), info))
-		exit(0);
 	fork_msg_b(info, id, 0);
 	sem_post(sem);
-	if (gettimeofday(&time, NULL), !is_ded_b(id, ts(time, l_eat), info))
-		exit(0);
 	fork_msg_b(info, id, 0);
 	gettimeofday(&l_eat, NULL);
 	return (1);
@@ -108,7 +102,9 @@ void	forker(int phil_n, t_info_b phil_info)
 int	main(int argc, char **argv)
 {
 	t_info_b	phil_info;
+	int			i;
 
+	i = 0;
 	phil_info.ded = 1;
 	get_values_b(argc, argv, &phil_info);
 	gettimeofday(&phil_info.start, NULL);
@@ -118,7 +114,16 @@ int	main(int argc, char **argv)
 	phil_info.forks = sem_open("/FORKS", O_CREAT | O_EXCL,
 			S_IRWXU, phil_info.phil_n);
 	forker(phil_info.phil_n, phil_info);
-	waitpid(0, NULL, WCONTINUED);
+	if (phil_info.number_eat > 0)
+	{
+		while (i < phil_info.phil_n)
+		{
+			waitpid(0, NULL, WCONTINUED);
+			i++;
+		}
+	}
+	else
+		waitpid(0, NULL, WCONTINUED);
 	sem_close(phil_info.forks);
 	kill(0, SIGKILL);
 }

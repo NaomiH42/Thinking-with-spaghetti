@@ -17,25 +17,19 @@ int	eat_last(t_id *id, int *t_eat, struct timeval l_eat)
 	struct timeval	time;
 
 	gettimeofday(&time, NULL);
-	pick_fork(id, id->id);
 	if (gettimeofday(&time, NULL), !is_ded(id, ts(time, l_eat)))
 		return (0);
+	pick_fork(id, id->id);
 	fork_msg(id, id->id, 1);
 	pick_fork(id, 0);
-	if (gettimeofday(&time, NULL), !is_ded(id, ts(time, l_eat)))
-		return (0);
 	fork_msg(id, 0, 1);
 	gettimeofday(&time, NULL);
 	printf("%u %d is eating\n", ts(time, id->info->start),
 		id->id + 1);
 	msleep(id->info->tte);
 	put_fork(id, id->id);
-	if (gettimeofday(&time, NULL), !is_ded(id, ts(time, l_eat)))
-		return (0);
 	fork_msg(id, id->id, 0);
 	put_fork(id, 0);
-	if (gettimeofday(&time, NULL), !is_ded(id, ts(time, l_eat)))
-		return (0);
 	fork_msg(id, 0, 0);
 	(*t_eat)++;
 	return (1);
@@ -46,25 +40,19 @@ int	eat(t_id *id, int *t_eat, struct timeval l_eat)
 	struct timeval	time;
 
 	gettimeofday(&time, NULL);
-	pick_fork(id, id->id);
 	if (gettimeofday(&time, NULL), !is_ded(id, ts(time, l_eat)))
 		return (0);
+	pick_fork(id, id->id);
 	fork_msg(id, id->id, 1);
 	pick_fork(id, id->id + 1);
-	if (gettimeofday(&time, NULL), !is_ded(id, ts(time, l_eat)))
-		return (0);
 	fork_msg(id, id->id + 1, 1);
 	gettimeofday(&time, NULL);
 	printf("%u %d is eating\n", ts(time, id->info->start),
 		id->id + 1);
 	msleep(id->info->tte);
 	put_fork(id, id->id);
-	if (gettimeofday(&time, NULL), !is_ded(id, ts(time, l_eat)))
-		return (0);
 	fork_msg(id, id->id, 0);
 	put_fork(id, id->id + 1);
-	if (gettimeofday(&time, NULL), !is_ded(id, ts(time, l_eat)))
-		return (0);
 	fork_msg(id, id->id + 1, 0);
 	(*t_eat)++;
 	return (1);
